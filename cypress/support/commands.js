@@ -49,3 +49,15 @@ Cypress.Commands.add('logoDesktopLink', () => {
     .children('#logo')
     .should('have.class', 'md:block')
 })
+
+Cypress.Commands.add('changePagination', () => {  
+    cy.get('.collection__footer span.page').first().contains('1')
+        .should('have.class', 'current')
+        .next().contains('2')
+        .click({ force: true});
+        cy.url().should('include', '?page=2')
+
+        cy.get('.collection__footer span.page.current')
+        .contains('2')
+        .should('have.class', 'current')
+})
