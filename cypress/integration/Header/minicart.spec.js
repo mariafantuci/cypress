@@ -3,7 +3,7 @@ const BASE_URL = 'https://www.dressthepopulation.com/';
 
 describe('Minicart', () => {
     beforeEach(() => {
-      cy.visit(BASE_URL);
+      cy.visit(Cypress.env('base_url'));
       cy.wait(2000);
     })
     
@@ -15,7 +15,7 @@ describe('Minicart', () => {
         cy.get('header [data-hcid="minicart-co"]')
         .should('be.visible')
         .click({force: true})
-        cy.url().should('eq', `${BASE_URL}cart`);
+        cy.url().should('eq', `${cy.visit(Cypress.env('base_url'))}cart`);
     })
 })
   
