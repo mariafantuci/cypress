@@ -1,25 +1,51 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('openFilter', () => { 
+    cy.get('[data-button-filter]').should('be.visible').click({force: true});
+    cy.get('component-filters').should('have.class', 'active').should('be.visible');
+})
+
+Cypress.Commands.add('openSearch', (productName) => { 
+    cy.get('[data-search-open]').should('be.visible').click({force: true});
+      cy.get('search-bar').should('be.visible')
+        .get('[data-search-input]')
+        .should('be.visible')
+        .click({force: true})
+        .type(`${productName}`, {force: true})
+        cy.get('#predictive-search ul li div').contains(productName)
+        cy.get('#predictive-search .relative ul li').should('have.length', 4)
+        cy.get('#predictive-search button span').contains('View All')
+})
+
+Cypress.Commands.add('openHamburgerMenu', () => { 
+    cy.get('[data-menu-open]').first().should('be.visible').click({force: true, multiple: true});
+})
+
+Cypress.Commands.add('selectFirstCollectionOnMenu', () => { 
+    cy.get('.menu-accordion .accordion__item a')
+      .first()
+      .click({force: true})
+      cy.get('[data-accordion-content] li a ')
+      .first()
+      .click({force: true})
+})
+
+Cypress.Commands.add('viewportSize', (size) => { 
+    if (Cypress._.isArray(size)) {
+        cy.viewport(size[0], size[1])
+    } else {
+        cy.viewport(size)
+    }
+})
+
+Cypress.Commands.add('logoMobileLink', () => {  
+    cy.get('[data-header] a')
+    .should('have.attr', 'href', '/')
+    .children('#logoMobile')
+    .should('have.class', 'md:hidden')
+})
+
+Cypress.Commands.add('logoDesktopLink', () => {  
+    cy.get('[data-header] a')
+    .should('have.attr', 'href', '/')
+    .children('#logo')
+    .should('have.class', 'md:block')
+})
