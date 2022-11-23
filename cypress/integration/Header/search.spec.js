@@ -1,17 +1,15 @@
 /// <reference types="cypress" />
 
-const productName = "Fernanda Dress"
-
 describe('Search', () => {
     beforeEach(() => {
       cy.visit(Cypress.env('base_url'));
-      cy.openSearch(productName)
+      cy.openSearch(Cypress.env('product_names'))
     })
 
     it('Collection click', () => {
         cy.get('ul .mb-3 a')
         .should('be.visible')
-        .contains(productName)
+        .contains(Cypress.env('product_names'))
         .click({force: true})
         cy.url().should('not.eq', Cypress.env('base_url'));
     })
